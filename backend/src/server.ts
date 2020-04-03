@@ -1,5 +1,9 @@
-import app from './app';
-require('dotenv').config();
+import App from './App';
+import { config } from 'dotenv';
+
+config();
+
+const app = new App().express;
 
 const port = process.env.API_PORT;
 
