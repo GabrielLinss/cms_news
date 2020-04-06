@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
 import routes from './routes';
+import morgan from 'morgan';
 
 class App {
     public express: express.Application;
@@ -17,6 +18,7 @@ class App {
       this.express.use(express.json());
       this.express.use(cors());
       this.express.use(errors());
+      this.express.use(morgan('dev'));
     }
 
     private routes(): void {

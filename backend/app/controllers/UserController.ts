@@ -2,11 +2,21 @@ import User from '../models/User';
 import { Request, Response } from 'express';
 
 interface IUser {
-    username?: string,
-    email?: string
+    username?: string;
+    email?: string;
 }
 
 class UserController {
+    public async login(req: Request, res: Response): Promise<Response> {
+        try {
+            const data = req.body;
+
+            return res.json(data);
+        } catch (error) {
+            return res.status(500).json([{ message: error }]);
+        }
+    }
+
     public async index(req: Request, res: Response): Promise<Response> {
         const users: User[] = await User.findAll();
 
@@ -23,7 +33,7 @@ class UserController {
 
             return res.status(201).json(user);
         } catch (error) {
-            return res.status(400).json([{ message: error }]);
+            return res.status(500).json([{ message: error }]);
         }
     }
 
