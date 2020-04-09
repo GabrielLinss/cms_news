@@ -23,7 +23,7 @@ routes.get('/', (req, res) => {
 });
 
 // User routes
-routes.get('/users', userController.index);
+routes.get('/users', auth.interceptRequest, userController.index);
 
 routes.post('/users', celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -43,6 +43,7 @@ routes.delete('/users/:id', userController.destroy);
 
 // Auth routes
 routes.post('/login', authController.login);
+routes.post('/register', authController.register);
 
 // Post routes
 routes.get('/posts', postController.index);
