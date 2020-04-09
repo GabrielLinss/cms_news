@@ -4,6 +4,7 @@ import UserController from '../app/controllers/UserController';
 import PostController from '../app/controllers/PostController';
 import CategoryController from '../app/controllers/CategoryController';
 import TagController from '../app/controllers/TagController';
+import AuthController from '../app/controllers/AuthController';
 import Auth from '../app/middlewares/Auth';
 
 const routes = Router();
@@ -12,6 +13,7 @@ const userController = new UserController;
 const postController = new PostController;
 const categoryController = new CategoryController;
 const tagController = new TagController;
+const authController = new AuthController;
 
 const auth = new Auth;
 
@@ -28,7 +30,8 @@ routes.post('/users', celebrate({
         username: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().required(),
-        password_confirmation: Joi.string().valid(Joi.ref('password')).required()
+        role_id: Joi.number().required()
+        //password_confirmation: Joi.string().valid(Joi.ref('password')).required()
     })
 }), userController.store);
 
@@ -38,7 +41,8 @@ routes.put('/users/:id', userController.update);
 
 routes.delete('/users/:id', userController.destroy);
 
-routes.post('/login', userController.login);
+// Auth routes
+routes.post('/login', authController.login);
 
 // Post routes
 routes.get('/posts', postController.index);

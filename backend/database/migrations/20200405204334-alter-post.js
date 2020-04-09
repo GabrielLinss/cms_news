@@ -2,17 +2,17 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.alterTable('posts', {
-      category_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED,
+    return queryInterface.addColumn('posts', 'category_id',
+      {
+        allowNull: true,
+        type: Sequelize.INTEGER,
         references: {
           key: 'id',
-          model: 'Category'
+          model: 'categories'
         },
         onDelete: 'SET NULL'
       }
-    })
+    );
   },
 
   down: (queryInterface, Sequelize) => {

@@ -4,7 +4,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('posts', {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
@@ -14,7 +13,7 @@ module.exports = {
         allowNull: false,
         references: {
           key: 'id',
-          model: 'User'
+          model: 'users'
         },
         onDelete: 'CASCADE'
       },
@@ -30,11 +29,13 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      createdAt: {
-        type: Sequelize.DATE
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
-      updatedAt: {
-        type: Sequelize.DATE
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false
       }
     });
   },

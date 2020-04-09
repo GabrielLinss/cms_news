@@ -2,17 +2,17 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.alterTable('users', {
-      role_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED,
+    return queryInterface.addColumn('users', 'role_id',
+      {
+        allowNull: true,
+        type: Sequelize.INTEGER,
         references: {
           key: 'id',
-          model: 'Role'
+          model: 'roles'
         },
         onDelete: 'SET NULL'
       }
-    })
+    );
   },
 
   down: (queryInterface, Sequelize) => {

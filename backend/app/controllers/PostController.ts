@@ -12,7 +12,9 @@ interface IPost {
 
 class PostController {
     public async index(req: Request, res: Response): Promise<Response> {
-        const posts: Post[] = await Post.findAll();
+        const posts: Post[] = await Post.findAll({
+            include: [ { association: 'user' }, { association: 'category' }, { association: 'tags' } ]
+        });
 
         return res.json(posts);
     }
@@ -21,10 +23,12 @@ class PostController {
         try {
             const { tags, ...data }: IPost = req.body;
 
-            const post = await Post.create(data);
+            const post = await Post.create(data, {
+                include: [ { association: 'user' }, { association: 'category' } ]
+            });
 
-            if (tags.length > 0) {
-                //attach das tags para o post
+            if (tags && tags.length > 0) {
+                await post.setTags(tags);
             }
 
             return res.status(201).json(post);
@@ -35,7 +39,9 @@ class PostController {
 
     public async show(req: Request, res: Response): Promise<Response> {
         try {
-            const post = await Post.findByPk(req.params.id);
+            const post = await Post.findByPk(req.params.id, {
+                include: [ { association: 'user' }, { association: 'category' }, { association: 'tags' } ]
+            });
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);
 
@@ -47,7 +53,9 @@ class PostController {
 
     public async update(req: Request, res: Response): Promise<Response> {
         try {
-            const post = await Post.findByPk(req.params.id);
+            const post = await Post.findByPk(req.params.id, {
+                include: [ { association: 'user' }, { association: 'category' } ]
+            });
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);
 
@@ -55,8 +63,8 @@ class PostController {
 
             await post.update(data);
 
-            if (tags.length > 0) {
-                //attach das novas tags do post
+            if (tags && tags.length > 0) {
+                await post.setTags(tags);
             }
 
             return res.json(post);

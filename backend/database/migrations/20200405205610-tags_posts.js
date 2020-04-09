@@ -4,34 +4,35 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('tags_posts', {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       post_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
+        type: Sequelize.INTEGER,
         references: {
           key: 'id',
-          model: 'Post'
+          model: 'posts'
         },
         onDelete: 'CASCADE',
         allowNull: false
       },
       tag_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
+        type: Sequelize.INTEGER,
         references: {
           key: 'id',
-          model: 'Tag'
+          model: 'tags'
         },
         onDelete: 'CASCADE',
         allowNull: false
       },
-      createdAt: {
-        type: Sequelize.DATE
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
-      updatedAt: {
-        type: Sequelize.DATE
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false
       }
     });
   },

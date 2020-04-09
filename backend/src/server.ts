@@ -1,6 +1,8 @@
 import App from './App';
 import { config } from 'dotenv';
 
+import '../database';
+
 config();
 
 const app = new App().express;
