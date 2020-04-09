@@ -1,7 +1,8 @@
 import Post from '../models/Post';
 import { Request, Response } from 'express';
 
-interface IPost {
+interface IPost extends Post {
+    id?: number;
     user_id?: number;
     category_id?: number;
     tags?: number[];
@@ -13,7 +14,8 @@ interface IPost {
 class PostController {
     public async index(req: Request, res: Response): Promise<Response> {
         const posts: Post[] = await Post.findAll({
-            include: [ { association: 'user' }, { association: 'category' }, { association: 'tags' } ]
+            include: [ { association: 'user' }, { association: 'category' }, 
+                       { association: 'tags' } ]
         });
 
         return res.json(posts);
@@ -23,13 +25,16 @@ class PostController {
         try {
             const { tags, ...data }: IPost = req.body;
 
-            const post = await Post.create(data, {
-                include: [ { association: 'user' }, { association: 'category' } ]
-            });
+            let post: IPost = await Post.create(data);
 
             if (tags && tags.length > 0) {
                 await post.setTags(tags);
             }
+
+            post = await Post.findByPk(post.id, {
+                include: [ { association: 'user' }, { association: 'category' }, 
+                           { association: 'tags' } ]
+            });
 
             return res.status(201).json(post);
         } catch (error) {
@@ -40,7 +45,8 @@ class PostController {
     public async show(req: Request, res: Response): Promise<Response> {
         try {
             const post = await Post.findByPk(req.params.id, {
-                include: [ { association: 'user' }, { association: 'category' }, { association: 'tags' } ]
+                include: [ { association: 'user' }, { association: 'category' }, 
+                           { association: 'tags' } ]
             });
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);
@@ -53,9 +59,7 @@ class PostController {
 
     public async update(req: Request, res: Response): Promise<Response> {
         try {
-            const post = await Post.findByPk(req.params.id, {
-                include: [ { association: 'user' }, { association: 'category' } ]
-            });
+            let post: IPost = await Post.findByPk(req.params.id);
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);
 
@@ -66,6 +70,11 @@ class PostController {
             if (tags && tags.length > 0) {
                 await post.setTags(tags);
             }
+
+            post = await Post.findByPk(post.id, {
+                include: [ { association: 'user' }, { association: 'category' }, 
+                           { association: 'tags' } ]
+            });
 
             return res.json(post);
         } catch (error) {
