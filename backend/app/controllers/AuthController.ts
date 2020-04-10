@@ -1,4 +1,5 @@
 import User from '../models/User';
+import Token from '../models/Token';
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -15,6 +16,10 @@ interface IUserRegister extends User {
     email?: string;
     password?: string;
     role_id?: number;
+}
+
+interface IToken {
+    token?: string;
 }
 
 function generateToken(params = {}) {
@@ -66,6 +71,20 @@ class AuthController {
     
             return res.status(201).json({ user, token: generateToken({ id: user.id })});
         } catch (error){
+            return res.status(500).json([{ message: error }]);
+        }
+    }
+
+    public async logout(req: Request, res: Response): Promise<Response> {
+        try {
+            const token = req.headers.authorization;
+
+            const data: IToken = { token };
+
+            const revoked = await Token.create(data);
+
+            return res.json([{ message: 'Logout success' }]);
+        } catch (error) {
             return res.status(500).json([{ message: error }]);
         }
     }

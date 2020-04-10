@@ -6,6 +6,7 @@ const Tag = require('../app/models/Tag');
 const Role = require('../app/models/Role');
 const Post = require('../app/models/Post');
 const Category = require('../app/models/Category');
+const Token = require('../app/models/Token');
 
 const connection = new Sequelize(dbConfig);
 
@@ -14,6 +15,7 @@ Tag.init(connection);
 Role.init(connection);
 Post.init(connection);
 Category.init(connection);
+Token.init(connection);
 
 User.associate(connection.models);
 Tag.associate(connection.models);

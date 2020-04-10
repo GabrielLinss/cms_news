@@ -44,6 +44,7 @@ routes.delete('/users/:id', userController.destroy);
 // Auth routes
 routes.post('/login', authController.login);
 routes.post('/register', authController.register);
+routes.post('/logout', authController.logout);
 
 // Post routes
 routes.get('/posts', postController.index);

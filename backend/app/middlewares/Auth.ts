@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
+import Token from '../models/Token';
 
 config();
 
@@ -12,8 +13,12 @@ interface IReq extends Request {
     userId: number;
 }
 
+interface IToken extends Token {
+    is_revoked?: boolean;
+}
+
 class Auth {
-    public interceptRequest(req: IReq, res: Response, next: NextFunction): Response {
+    public async interceptRequest(req: IReq, res: Response, next: NextFunction): Promise<Response> {
         try{
             const authHeader = req.headers.authorization;
 
@@ -28,6 +33,12 @@ class Auth {
             }
 
             const [scheme, token] = parts;
+
+            const revokedToken: IToken = await Token.findOne({ where: { token } });
+            
+            if (revokedToken && revokedToken.is_revoked) {
+                return res.status(401).json([{ message: 'Token revoked' }]);
+            }
 
             if(!/^Bearer$/i.test(scheme)){
                 return res.status(401).send({error: 'Token malformated'});
