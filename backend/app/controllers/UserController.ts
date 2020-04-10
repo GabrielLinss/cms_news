@@ -17,18 +17,6 @@ class UserController {
         return res.json(users);
     }
 
-    public async store(req: Request, res: Response): Promise<Response> {
-        try {
-            const data: IUser = req.body;
-
-            const user = await User.create(data, { include: [ { association: 'role' } ]});
-
-            return res.status(201).json(user);
-        } catch (error) {
-            return res.status(500).json([{ message: error }]);
-        }
-    }
-
     public async show(req: Request, res: Response): Promise<Response> {
         try {
             const user = await User.findByPk(req.params.id, { include: [ { association: 'role' } ]});

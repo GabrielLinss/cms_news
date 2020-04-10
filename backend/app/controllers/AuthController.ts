@@ -57,6 +57,8 @@ class AuthController {
             const exists = await User.findOne({ where: { email } });
 
             if (exists) return res.status(400).json([{ message: 'User already exists' }]);
+
+            delete req.body.password_confirmation;
     
             let salt = bcrypt.genSaltSync(10);
             req.body.password = bcrypt.hashSync(req.body.password, salt);
