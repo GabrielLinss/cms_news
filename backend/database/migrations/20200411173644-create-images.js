@@ -2,22 +2,34 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('images', {
       id: {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
+      post_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          key: 'id',
+          model: 'posts'
+        },
+        onDelete: 'CASCADE'
+      },
+      legend: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+      size: {
+        type: Sequelize.FLOAT,
+        allowNull: false
       },
-      password: {
+      key: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      url: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -32,6 +44,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('images');
   }
 };

@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { Joi, celebrate, Segments } from 'celebrate';
+import multer from 'multer';
+import multerConfig from '../config/multer';
 import UserController from '../app/controllers/UserController';
 import PostController from '../app/controllers/PostController';
 import CategoryController from '../app/controllers/CategoryController';
@@ -48,16 +50,9 @@ routes.post('/logout', authController.logout);
 
 // Post routes
 routes.get('/posts', postController.index);
-routes.post('/posts', celebrate({
-    [Segments.BODY]: Joi.object().keys({
-        user_id: Joi.number().required(),
-        category_id: Joi.number().required(),
-        tags: [ Joi.number() ],
-        title: Joi.string().required(),
-        subtitle: Joi.string().required(),
-        content: Joi.string().required()
-    })
-}), auth.interceptRequest, postController.store);
+routes.post('/posts', auth.interceptRequest, 
+                      multer(multerConfig).single('main_image'), 
+                      postController.store);
 routes.get('/posts/:id', postController.show);
 routes.put('/posts/:id', celebrate({
     [Segments.BODY]: Joi.object().keys({

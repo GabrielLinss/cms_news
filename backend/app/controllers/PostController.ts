@@ -6,24 +6,53 @@ interface IPost extends Post {
     user_id?: number;
     category_id?: number;
     tags?: number[];
+    main_image?: string;
     title?: string;
     subtitle?: string;
     content?: string;
 }
 
+interface IReq extends Request {
+    file: {
+        location: string;
+    }
+}
+
 class PostController {
     public async index(req: Request, res: Response): Promise<Response> {
-        const posts: Post[] = await Post.findAll({
-            include: [ { association: 'user' }, { association: 'category' }, 
+        let { page = 1, limit = 5 } = req.query;
+
+        page = parseInt(page);
+        limit = parseInt(limit);
+        
+        const offset = (page - 1) * limit;
+
+        const posts = await Post.findAndCountAll({
+            limit,
+            offset,
+            order: [['id', 'DESC']],
+            include: [ { association: 'user' }, 
+                       { association: 'category' }, 
                        { association: 'tags' } ]
         });
 
-        return res.json(posts);
+        const data = {
+            total: posts.count,
+            perPage: limit,
+            lastPage: Math.ceil(posts.count / limit),
+            page,
+            data: posts.rows
+        };
+
+        return res.json(data);
     }
 
-    public async store(req: Request, res: Response): Promise<Response> {
+    public async store(req: IReq, res: Response): Promise<Response> {
         try {
             const { tags, ...data }: IPost = req.body;
+
+            const { location } = req.file;
+            data.main_image = location;
 
             let post: IPost = await Post.create(data);
 
@@ -32,7 +61,8 @@ class PostController {
             }
 
             post = await Post.findByPk(post.id, {
-                include: [ { association: 'user' }, { association: 'category' }, 
+                include: [ { association: 'user' }, 
+                           { association: 'category' }, 
                            { association: 'tags' } ]
             });
 
@@ -84,7 +114,7 @@ class PostController {
 
     public async destroy(req: Request, res: Response): Promise<Response> {
         try {
-            const post = await Post.findByPk(req.params.id);
+            const post: IPost = await Post.findByPk(req.params.id);
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);
 

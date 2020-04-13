@@ -5,7 +5,8 @@ class Post extends Model {
     super.init({
       title: DataTypes.STRING,
       subtitle: DataTypes.STRING,
-      content: DataTypes.TEXT
+      content: DataTypes.TEXT,
+      main_image: DataTypes.STRING
     }, {
       sequelize: connection
     });
@@ -15,6 +16,7 @@ class Post extends Model {
     this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
     this.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
     this.belongsToMany(models.Tag, { foreignKey: 'post_id', through: 'tags_posts', as: 'tags' });
+    this.hasMany(models.Image, { foreignKey: 'post_id', as: 'images' });
   }
 }
 
