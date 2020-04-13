@@ -76,7 +76,7 @@ class PostController {
         try {
             const post = await Post.findByPk(req.params.id, {
                 include: [ { association: 'user' }, { association: 'category' }, 
-                           { association: 'tags' } ]
+                           { association: 'tags' }, { association: 'images' } ]
             });
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);

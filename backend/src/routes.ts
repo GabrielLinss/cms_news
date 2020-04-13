@@ -6,6 +6,7 @@ import UserController from '../app/controllers/UserController';
 import PostController from '../app/controllers/PostController';
 import CategoryController from '../app/controllers/CategoryController';
 import TagController from '../app/controllers/TagController';
+import ImageController from '../app/controllers/ImageController';
 import AuthController from '../app/controllers/AuthController';
 import Auth from '../app/middlewares/Auth';
 
@@ -15,6 +16,7 @@ const userController = new UserController;
 const postController = new PostController;
 const categoryController = new CategoryController;
 const tagController = new TagController;
+const imageController = new ImageController;
 const authController = new AuthController;
 
 const auth = new Auth;
@@ -92,5 +94,11 @@ routes.put('/tags/:id', celebrate({
     })
 }), auth.interceptRequest, tagController.update);
 routes.delete('/tags/:id', auth.interceptRequest, tagController.destroy);
+
+// Image routes
+routes.post('/images', auth.interceptRequest, 
+                       multer(multerConfig).array('images', 5), 
+                       imageController.store);
+routes.delete('/images/:id', auth.interceptRequest, imageController.destroy);
 
 export default routes;
