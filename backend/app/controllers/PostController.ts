@@ -37,9 +37,9 @@ class PostController {
         });
 
         const data = {
-            total: posts.count,
+            total: posts.rows.length,
             perPage: limit,
-            lastPage: Math.ceil(posts.count / limit),
+            lastPage: Math.ceil(posts.rows.length / limit),
             page,
             data: posts.rows
         };
