@@ -1,5 +1,10 @@
 import Post from '../models/Post';
+import Image from '../models/Image';
 import { Request, Response } from 'express';
+import AWS from 'aws-sdk';
+import { config } from 'dotenv';
+
+config();
 
 interface IPost extends Post {
     id?: number;
@@ -16,6 +21,10 @@ interface IReq extends Request {
     file: {
         location: string;
     }
+}
+
+interface IImage extends Image {
+    key?: string;
 }
 
 class PostController {
@@ -117,6 +126,46 @@ class PostController {
             const post: IPost = await Post.findByPk(req.params.id);
 
             if (!post) return res.status(404).json([{ message: 'Post not found' }]);
+
+            if (post.main_image && process.env.STORAGE_TYPE === 'S3') {
+                const s3 = new AWS.S3();
+                const file = post.main_image.split('com/');
+                const path = file[1];
+                const params = {
+                    Bucket: process.env.STORAGE_BUCKET,
+                    Key: path
+                };
+
+                let images: any = await Image.findAll({ where: { post_id: post.id } });
+                let imagesParams = {
+                        Bucket: process.env.STORAGE_BUCKET,
+                        Delete: {
+                            Objects: []
+                        }
+                };
+
+                if (images.length > 0) {
+                    images = images.map(image => { return { Key: image.key } });
+                    imagesParams.Delete.Objects = images;
+                }
+
+                try {
+                    await s3.headObject(params).promise();
+
+                    try {
+                        await s3.deleteObject(params).promise();
+
+                        if (images.length > 0) {
+                            await s3.deleteObjects(imagesParams).promise();
+                        }
+                    }
+                    catch (error) {
+                        return res.status(500).json([{ message: error }]);
+                    }
+                } catch (error) {
+                    return res.status(500).json([{ message: error }]);
+                }
+            }
 
             await post.destroy();
 

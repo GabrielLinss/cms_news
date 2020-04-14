@@ -22,7 +22,7 @@ const storageTypes = {
     }),
     S3: multerS3({
         s3: new AWS.S3(),
-        bucket: 'serra-noticias',
+        bucket: process.env.STORAGE_BUCKET,
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: 'public-read',
         key: (req, file, cb) => {
