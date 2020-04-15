@@ -1,12 +1,11 @@
 import React from 'react';
-import qs from 'query-string';
 
 export default function EditPost(props) {
-  const query = qs.parse(props.location.search);
+  const id = props.match.params.id;
 
   return (
     <div>
-      <h3>ID: {query.p}</h3>
+      <h3>ID: {id}</h3>
     </div>
   );
 }

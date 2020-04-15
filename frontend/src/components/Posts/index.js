@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,10 +12,7 @@ import Title from '../Title';
 import api from '../../services/api';
 import moment from 'moment';
 import Pagination from '@material-ui/lab/Pagination';
-
-function preventDefault(event) {
-  event.preventDefault();
-}
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -60,7 +56,7 @@ export default function Posts() {
   }
 
   function handleEdit(id) {
-    history.push(`/posts/edit?p=${id}`);
+    history.push(`/posts/edit/${id}`);
   }
 
   return (
@@ -85,14 +81,14 @@ export default function Posts() {
               <TableCell>{post.category.name}</TableCell>
               <TableCell>{moment(post.createdAt).format('DD/MM/YYYY HH:mm')}</TableCell>
               <TableCell align="right">
-                <Link color="primary" href="#" onClick={() => handleEdit(post.id)}>
+                <IconButton color="primary" onClick={() => handleEdit(post.id)}>
                   <EditIcon/>
-                </Link>
+                </IconButton>
               </TableCell>
               <TableCell align="right">
-                <Link color="primary" href="#" onClick={() => handleDelete(post.id)}>
+                <IconButton color="primary" onClick={() => handleDelete(post.id)}>
                   <DeleteIcon/>
-                </Link>
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}

@@ -13,7 +13,7 @@ export default function Routes() {
             <Route path="/" exact component={Home}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/dashboard/:page?" exact component={Dashboard}/>
-            <Route path="/posts/edit" exact component={EditPost}/>
+            <Route path="/posts/edit/:id" exact component={EditPost}/>
         </Switch>
     </BrowserRouter>
   );
