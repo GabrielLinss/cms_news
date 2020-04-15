@@ -12,6 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Title from '../Title';
 import api from '../../services/api';
 import moment from 'moment';
+import Pagination from '@material-ui/lab/Pagination';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -26,17 +27,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const classes = useStyles();
 
   const history = useHistory();
 
   useEffect(() => {
-    api.get('/posts').then(response => {
+    api.get(`/posts?page=${page}`).then(response => {
       setPosts(response.data.data);
       setTotal(response.data.total);
+      setLastPage(response.data.lastPage);
     });
-  }, []);
+  }, [page]);
 
   async function handleDelete(id) {
     try {
@@ -95,9 +99,11 @@ export default function Posts() {
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          Ver mais posts
-        </Link>
+        <Pagination
+          count={lastPage}
+          page={page}
+          onChange={(event, page) => setPage(page)}
+          color="primary" />
       </div>
     </>
   );

@@ -33,22 +33,24 @@ class PostController {
 
         page = parseInt(page);
         limit = parseInt(limit);
-        
+
         const offset = (page - 1) * limit;
 
         const posts = await Post.findAndCountAll({
             limit,
             offset,
             order: [['id', 'DESC']],
-            include: [ { association: 'user' }, 
-                       { association: 'category' }, 
+            include: [ { association: 'user' },
+                       { association: 'category' },
                        { association: 'tags' } ]
         });
 
+        const total = await Post.count();
+
         const data = {
-            total: posts.rows.length,
+            total,
             perPage: limit,
-            lastPage: Math.ceil(posts.rows.length / limit),
+            lastPage: Math.ceil(total / limit),
             page,
             data: posts.rows
         };
@@ -70,8 +72,8 @@ class PostController {
             }
 
             post = await Post.findByPk(post.id, {
-                include: [ { association: 'user' }, 
-                           { association: 'category' }, 
+                include: [ { association: 'user' },
+                           { association: 'category' },
                            { association: 'tags' } ]
             });
 
@@ -84,7 +86,7 @@ class PostController {
     public async show(req: Request, res: Response): Promise<Response> {
         try {
             const post = await Post.findByPk(req.params.id, {
-                include: [ { association: 'user' }, { association: 'category' }, 
+                include: [ { association: 'user' }, { association: 'category' },
                            { association: 'tags' }, { association: 'images' } ]
             });
 
@@ -111,7 +113,7 @@ class PostController {
             }
 
             post = await Post.findByPk(post.id, {
-                include: [ { association: 'user' }, { association: 'category' }, 
+                include: [ { association: 'user' }, { association: 'category' },
                            { association: 'tags' } ]
             });
 
