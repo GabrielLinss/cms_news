@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Title from '../Title';
 import api from '../../services/api';
+import moment from 'moment';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -78,7 +79,7 @@ export default function Posts() {
               <TableCell>{post.title}</TableCell>
               <TableCell>{post.user.username}</TableCell>
               <TableCell>{post.category.name}</TableCell>
-              <TableCell>{post.createdAt}</TableCell>
+              <TableCell>{moment(post.createdAt).format('DD/MM/YYYY HH:mm')}</TableCell>
               <TableCell align="right">
                 <Link color="primary" href="#" onClick={() => handleEdit(post.id)}>
                   <EditIcon/>
