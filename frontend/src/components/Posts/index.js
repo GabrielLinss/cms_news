@@ -13,6 +13,12 @@ import api from '../../services/api';
 import moment from 'moment';
 import Pagination from '@material-ui/lab/Pagination';
 import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -25,6 +31,8 @@ export default function Posts() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [postId, setPostId] = useState(0);
 
   const classes = useStyles();
 
@@ -38,18 +46,19 @@ export default function Posts() {
     });
   }, [page]);
 
-  async function handleDelete(id) {
+  async function handleDelete() {
     try {
       const token = localStorage.getItem('token');
 
-      await api.delete(`posts/${id}`, {
+      await api.delete(`posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
-      setPosts(posts.filter(post => post.id !== id));
+      setPosts(posts.filter(post => post.id !== postId));
       setTotal(total - 1);
+      setOpen(false);
     } catch (error) {
       alert('Erro ao deletar post, tente novamente.');
     }
@@ -57,6 +66,11 @@ export default function Posts() {
 
   function handleEdit(id) {
     history.push(`/posts/edit/${id}`);
+  }
+
+  function openDialog(id) {
+    setPostId(id);
+    setOpen(true);
   }
 
   return (
@@ -82,12 +96,12 @@ export default function Posts() {
               <TableCell>{moment(post.createdAt).format('DD/MM/YYYY HH:mm')}</TableCell>
               <TableCell align="right">
                 <IconButton color="primary" onClick={() => handleEdit(post.id)}>
-                  <EditIcon/>
+                  <EditIcon />
                 </IconButton>
               </TableCell>
               <TableCell align="right">
-                <IconButton color="primary" onClick={() => handleDelete(post.id)}>
-                  <DeleteIcon/>
+                <IconButton color="primary" onClick={() => openDialog(post.id)}>
+                  <DeleteIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -100,6 +114,30 @@ export default function Posts() {
           page={page}
           onChange={(event, page) => setPage(page)}
           color="primary" />
+      </div>
+
+      <div>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Confirmação</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Tem certeza que deseja excluir este post?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Não
+            </Button>
+            <Button onClick={() => handleDelete()} color="primary" autoFocus>
+              Sim
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </>
   );
