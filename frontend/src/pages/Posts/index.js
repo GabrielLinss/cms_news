@@ -93,7 +93,7 @@ export default function Posts() {
             <TableRow key={post.id}>
               <TableCell>{post.title}</TableCell>
               <TableCell>{post.user.username}</TableCell>
-              <TableCell>{post.category.name}</TableCell>
+              <TableCell>{post.category && post.category.name}</TableCell>
               <TableCell>{moment(post.createdAt).format('DD/MM/YYYY HH:mm')}</TableCell>
               <TableCell align="right">
                 <IconButton color="primary" onClick={() => handleEdit(post.id)}>
