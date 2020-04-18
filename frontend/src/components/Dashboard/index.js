@@ -17,8 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from '../../components/ListItems';
-import Posts from '../../components/Posts';
+import MainListItems from '../MainListItems';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 function Copyright() {
@@ -115,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -179,7 +178,9 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <MainListItems/>
+        </List>
       </Drawer>
 
       <main className={classes.content}>
@@ -188,7 +189,7 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Posts />
+                { props.children }
               </Paper>
             </Grid>
           </Grid>

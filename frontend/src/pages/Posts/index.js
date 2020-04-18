@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Title from '../Title';
+import Title from '../../components/Title';
 import api from '../../services/api';
 import moment from 'moment';
 import Pagination from '@material-ui/lab/Pagination';
@@ -19,6 +19,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Dashboard from '../../components/Dashboard';
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -65,7 +66,7 @@ export default function Posts() {
   }
 
   function handleEdit(id) {
-    history.push(`/posts/edit/${id}`);
+    history.push(`/dashboard/posts/edit/${id}`);
   }
 
   function openDialog(id) {
@@ -74,7 +75,7 @@ export default function Posts() {
   }
 
   return (
-    <>
+    <Dashboard>
       <Title>Posts - total: {total}</Title>
       <Table size="small">
         <TableHead>
@@ -139,6 +140,6 @@ export default function Posts() {
           </DialogActions>
         </Dialog>
       </div>
-    </>
+    </Dashboard>
   );
 }
