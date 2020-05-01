@@ -1,8 +1,10 @@
 import Post from '../models/Post';
 import Image from '../models/Image';
+import Tag from '../models/Tag';
 import { Request, Response } from 'express';
 import AWS from 'aws-sdk';
 import { config } from 'dotenv';
+import { Op } from 'sequelize';
 
 config();
 
@@ -10,7 +12,7 @@ interface IPost extends Post {
     id?: number;
     user_id?: number;
     category_id?: number;
-    tags?: number[];
+    tags?: string;
     main_image?: string;
     title?: string;
     subtitle?: string;
@@ -25,6 +27,11 @@ interface IReq extends Request {
 
 interface IImage extends Image {
     key?: string;
+}
+
+interface ITag extends Tag {
+  id?: number;
+  name?: string;
 }
 
 class PostController {
@@ -60,15 +67,32 @@ class PostController {
 
     public async store(req: IReq, res: Response): Promise<Response> {
         try {
-            const { tags, ...data }: IPost = req.body;
+            let { tags, ...data }: IPost = req.body;
+
+            let separatedAndCreatedTags = [];
+
+            if (tags && tags.length > 0) {
+              let arrayTags = tags.split(',');
+
+              for (let tag of arrayTags) {
+                let t: ITag = await Tag.findOne({ where: { name: { [Op.like]: '%' + tag } } });
+
+                if (!t) {
+                  t = await Tag.create({ name: tag });
+                  separatedAndCreatedTags.push(t.id);
+                } else {
+                  separatedAndCreatedTags.push(t.id);
+                }
+              }
+            }
 
             const { location } = req.file;
             data.main_image = location;
 
             let post: IPost = await Post.create(data);
 
-            if (tags && tags.length > 0) {
-                await post.setTags(tags);
+            if (separatedAndCreatedTags && separatedAndCreatedTags.length > 0) {
+                await post.setTags(separatedAndCreatedTags);
             }
 
             post = await Post.findByPk(post.id, {
@@ -152,7 +176,7 @@ class PostController {
                 }
 
                 try {
-                    await s3.headObject(params).promise();
+                    //await s3.headObject(params).promise();
 
                     try {
                         await s3.deleteObject(params).promise();
