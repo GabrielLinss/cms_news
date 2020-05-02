@@ -43,6 +43,7 @@ export default function Users() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [suggestPassword, setSuggestPassword] = useState(generateRandomPassword());
 
   const history = useHistory();
 
@@ -104,12 +105,17 @@ export default function Users() {
       setEmail('');
       setPassword('');
       setPasswordConfirmation('');
+      setSuggestPassword(generateRandomPassword());
 
       setUsers([ ...users, response.data.user ]);
       alert('Usuário cadastrado com sucesso!');
     } catch (error) {
       alert('Erro ao cadastrar usuário, tente novamente.');
     }
+  }
+
+  function generateRandomPassword() {
+    return Math.random().toString(36).slice(-8);
   }
 
   return (
@@ -152,6 +158,17 @@ export default function Users() {
           variant="outlined"
           value={passwordConfirmation}
           onChange={e => setPasswordConfirmation(e.target.value)}
+        />
+
+        <TextField
+          label="Sugestão de senha"
+          id="suggestPassword"
+          className={classes.textField}
+          margin="dense"
+          variant="outlined"
+          value={suggestPassword}
+          onChange={() => {}}
+          disabled
         />
 
         <Button type="submit" color="primary" size="large">Cadastrar</Button>

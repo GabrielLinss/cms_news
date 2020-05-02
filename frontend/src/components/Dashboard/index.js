@@ -19,6 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MainListItems from '../MainListItems';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Animated } from "react-animated-css";
 
 function Copyright() {
   return (
@@ -188,9 +189,11 @@ export default function Dashboard(props) {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                { props.children }
-              </Paper>
+              <Animated animationIn="fadeInUpBig" animationOut="fadeOut" isVisible={true}>
+                <Paper className={classes.paper}>
+                  { props.children }
+                </Paper>
+              </Animated>
             </Grid>
           </Grid>
           <Box pt={4}>
