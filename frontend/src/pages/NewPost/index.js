@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '20vh',
     minWidth: '62vw',
     borderRadius: 5,
-    border: '1px solid #cecece'
+    border: '1px solid #cecece',
+    fontSize: 16
   }
 }));
 
