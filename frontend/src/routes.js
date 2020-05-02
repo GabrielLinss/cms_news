@@ -7,6 +7,7 @@ import Posts from './pages/Posts';
 import EditPost from './pages/EditPost';
 import NewPost from './pages/NewPost';
 import Users from './pages/Users';
+import EditUser from './pages/EditUser';
 import Categories from './pages/Categories';
 import Tags from './pages/Tags';
 
@@ -20,6 +21,7 @@ export default function Routes() {
             <Route path="/dashboard/posts/edit/:id" exact component={EditPost}/>
             <Route path="/dashboard/posts/new" exact component={NewPost}/>
             <Route path="/dashboard/users" exact component={Users}/>
+            <Route path="/dashboard/users/edit/:id" exact component={EditUser}/>
             <Route path="/dashboard/categories" exact component={Categories}/>
             <Route path="/dashboard/tags" exact component={Tags}/>
         </Switch>

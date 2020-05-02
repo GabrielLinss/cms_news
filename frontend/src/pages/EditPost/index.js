@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function NewPost(props) {
+export default function EditPost(props) {
   const id = props.match.params.id;
   const [post, setPost] = useState({});
 
