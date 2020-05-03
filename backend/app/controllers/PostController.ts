@@ -75,6 +75,7 @@ class PostController {
               let arrayTags = tags.split(',');
 
               for (let tag of arrayTags) {
+                tag = tag.trim();
                 let t: ITag = await Tag.findOne({ where: { name: { [Op.like]: '%' + tag } } });
 
                 if (!t) {
