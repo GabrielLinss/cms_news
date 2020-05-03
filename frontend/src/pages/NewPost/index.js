@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TextField, Button, Input, Select, MenuItem, TextareaAutosize } from '@material-ui/core';
+import { TextField, Button, Input, Select, MenuItem } from '@material-ui/core';
 import Dashboard from '../../components/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
+import CKEditor from 'ckeditor4-react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,7 @@ export default function NewPost() {
   const [category, setCategory] = useState(1);
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState('<p>Adicione o conteúdo aqui</p>');
   const [mainImage, setMainImage] = useState(null);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState('');
@@ -135,13 +136,12 @@ export default function NewPost() {
           variant="outlined"
           onChange={e => setMainImage(e.target.files[0])}
         />
-        <TextareaAutosize
-          className={classes.textArea}
-          aria-label="Content"
-          placeholder="Conteúdo"
-          value={content}
-          onChange={e => setContent(e.target.value)}
+
+        <CKEditor
+          data={content}
+          onChange={e => setContent(e.editor.getData())}
         />
+
         <Button type="submit" color="primary" size="large">Postar</Button>
       </form>
     </Dashboard>

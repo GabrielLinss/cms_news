@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TextField, Button, TextareaAutosize } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import Dashboard from '../../components/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
+import CKEditor from 'ckeditor4-react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,7 @@ export default function EditPost(props) {
   useEffect(() => {
     api.get(`/posts/${id}`).then(response => {
       setPost(response.data);
+      console.log(post.content);
     });
   }, [id]);
 
@@ -84,12 +86,9 @@ export default function EditPost(props) {
           value={post.subtitle}
           onChange={e => setPost({ subtitle: e.target.value})}
         />
-        <TextareaAutosize
-          className={classes.textArea}
-          aria-label="Content"
-          placeholder="Conteúdo"
-          value={post.content}
-          onChange={e => setPost({ content: e.target.value})}
+        <CKEditor
+          data={post.content}
+          onChange={e => setPost({ content: e.editor.getData()})}
         />
         <Button type="submit" color="primary" size="large">Salvar</Button>
       </form>
