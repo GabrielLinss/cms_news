@@ -65,6 +65,7 @@ export default function EditPost(props) {
 
       <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
         <TextField
+          focused
           label="Título"
           id="title"
           className={classes.textField}
@@ -74,6 +75,7 @@ export default function EditPost(props) {
           onChange={e => setPost({ title: e.target.value})}
         />
         <TextField
+          focused
           label="Subtítulo"
           id="subtitle"
           className={classes.textField}
