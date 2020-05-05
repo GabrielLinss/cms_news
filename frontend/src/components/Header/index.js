@@ -30,13 +30,10 @@ export default function Header(props) {
 
   const history = useHistory();
 
-  function redirectToLogin() {
-    history.push('/login');
-  }
-
   return (
     <>
       <Toolbar className={classes.toolbar}>
+        <Button variant="outlined" size="small" onClick={() => history.push('/home')}>Início</Button>
         <Typography
           component="h2"
           variant="h5"
@@ -48,7 +45,7 @@ export default function Header(props) {
           {title}
         </Typography>
 
-        <Button variant="outlined" size="small" onClick={() => redirectToLogin()}>
+        <Button variant="outlined" size="small" onClick={() => history.push('/login')}>
           Login
         </Button>
       </Toolbar>

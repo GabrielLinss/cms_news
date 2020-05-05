@@ -36,23 +36,43 @@ interface ITag extends Tag {
 
 class PostController {
     public async index(req: Request, res: Response): Promise<Response> {
-        let { page = 1, limit = 5 } = req.query;
+        let { page = 1, limit = 5, category_id } = req.query;
 
         page = parseInt(page);
         limit = parseInt(limit);
 
         const offset = (page - 1) * limit;
 
-        const posts = await Post.findAndCountAll({
+        let posts;
+
+        if (category_id) {
+          posts = await Post.findAndCountAll({
+            where: { category_id },
             limit,
             offset,
             order: [['id', 'DESC']],
             include: [ { association: 'user' },
                        { association: 'category' },
                        { association: 'tags' } ]
-        });
+          });
+        } else {
+          posts = await Post.findAndCountAll({
+              limit,
+              offset,
+              order: [['id', 'DESC']],
+              include: [ { association: 'user' },
+                        { association: 'category' },
+                        { association: 'tags' } ]
+          });
+        }
 
-        const total = await Post.count();
+        let total
+
+        if (category_id) {
+          total = await Post.count({ where: { category_id } });
+        } else {
+          total = await Post.count();
+        }
 
         const data = {
             total,

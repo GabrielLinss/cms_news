@@ -62,7 +62,10 @@ export default function Blog(props) {
     }
 
     async function loadPosts() {
-      const response = await api.get('/posts');
+      let response
+
+      if (categoryId) response = await api.get(`/posts?category_id=${categoryId}`);
+      else response = await api.get(`/posts`);
 
       let p1 = response.data.data.shift();
       p1 = {
@@ -113,7 +116,7 @@ export default function Blog(props) {
 
     loadCategories();
     loadPosts();
-  }, []);
+  }, [categoryId]);
 
   return (
     <>
