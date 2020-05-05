@@ -10,11 +10,13 @@ import EditUser from './pages/EditUser';
 import Categories from './pages/Categories';
 import Tags from './pages/Tags';
 import Blog from './pages/Blog';
+import Home from './pages/Home';
 
 export default function Routes() {
   return (
     <BrowserRouter>
         <Switch>
+            <Route path="/" exact component={Home}/>
             <Route path="/home/:category?" exact component={Blog}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/dashboard" exact component={Posts}/>
