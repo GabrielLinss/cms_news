@@ -36,12 +36,12 @@ const sidebar = {
     { title: 'Outubro 2019', url: '#' },
     { title: 'Setembro 2019', url: '#' },
     { title: 'Agosto 2019', url: '#' },
-    { title: 'Julho 2019', url: '#' },
+    { title: 'Julho 2019', url: '#' }
   ],
   social: [
     { name: 'GitHub', icon: GitHubIcon, url: 'https://www.github.com/GabrielLinss' },
-    { name: 'Twitter', icon: TwitterIcon, url: 'https://www.github.com/GabrielLinss' },
-    { name: 'Facebook', icon: FacebookIcon, url: 'https://www.github.com/GabrielLinss' },
+    { name: 'Twitter', icon: TwitterIcon, url: 'https://twitter.com' },
+    { name: 'Facebook', icon: FacebookIcon, url: 'https://www.facebook.com' }
   ],
 };
 
@@ -66,22 +66,43 @@ export default function Blog(props) {
 
       let p1 = response.data.data.shift();
       p1 = {
-        title: p1.title,
-        description: p1.subtitle,
-        image: p1.main_image,
+        title: p1 && p1.title,
+        description: p1 && p1.subtitle,
+        image: p1 && p1.main_image,
         imgText: 'post image',
         linkText: 'Continue lendo…'
       };
 
+      if (!p1) {
+        p1 = {
+          title: 'vazio',
+          description: 'vazio',
+          image: 'vazio',
+          imgText: 'post image',
+          linkText: 'Continue lendo…'
+        };
+      }
+
       let p2 = response.data.data.map(post => ({
-        title: post.title,
-        date: moment(post.createdAt).format('DD/MM/YYYY HH:mm'),
-        description: post.subtitle,
-        image: post.main_image,
+        title: post && post.title,
+        date: post && moment(post.createdAt).format('DD/MM/YYYY HH:mm'),
+        description: post && post.subtitle,
+        image: post && post.main_image,
         imageText: 'post image',
       }));
 
-      p2 = [ p2[0], p2[1] ];
+      if (p2.length === 0) {
+        let pAux = {
+          title: 'vazio',
+          date: moment('2020-04-13T02:19:54.000Z').format('DD/MM/YYYY HH:mm'),
+          description: 'vazio',
+          image: 'vazio',
+          imageText: 'post image'
+        };
+        p2.push(pAux);
+      } else {
+        p2 = [ p2[0], p2[1] ];
+      }
 
       let p3 = response.data.data;
 

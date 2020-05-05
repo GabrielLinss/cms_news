@@ -36,10 +36,11 @@ export default function EditPost(props) {
   const history = useHistory();
 
   useEffect(() => {
-    api.get(`/posts/${id}`).then(response => {
-      setPost(response.data);
-      console.log(post.content);
-    });
+    async function loadPost() {
+      const res = await api.get(`/posts/${id}`);
+      setPost(res.data);
+    }
+    loadPost();
   }, [id]);
 
   async function handleSubmit(e) {
