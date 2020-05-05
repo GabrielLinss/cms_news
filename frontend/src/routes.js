@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Home from './pages/Home';
 import Login from './pages/Login';
 import Posts from './pages/Posts';
 import EditPost from './pages/EditPost';
@@ -10,12 +9,13 @@ import Users from './pages/Users';
 import EditUser from './pages/EditUser';
 import Categories from './pages/Categories';
 import Tags from './pages/Tags';
+import Blog from './pages/Blog';
 
 export default function Routes() {
   return (
     <BrowserRouter>
         <Switch>
-            <Route path="/" exact component={Home}/>
+            <Route path="/home/:category?" exact component={Blog}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/dashboard" exact component={Posts}/>
             <Route path="/dashboard/posts/edit/:id" exact component={EditPost}/>

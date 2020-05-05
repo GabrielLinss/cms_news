@@ -189,7 +189,7 @@ export default function Dashboard(props) {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Animated animationIn="fadeInUpBig" animationOut="fadeOut" isVisible={true}>
+              <Animated animationIn="fadeInUpBig" animationOut="fadeOut" isVisible={true} animationInDuration={800} animationOutDuration={800}>
                 <Paper className={classes.paper}>
                   { props.children }
                 </Paper>
