@@ -13,7 +13,6 @@ import Main from '../../components/Main';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
-import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -65,55 +64,12 @@ export default function Blog(props) {
       let response
 
       if (categoryId) response = await api.get(`/posts?category_id=${categoryId}`);
-      else response = await api.get(`/posts`);
+      else response = await api.get('/posts');
 
-      let p1 = response.data.data.shift();
-      p1 = {
-        title: p1 && p1.title,
-        description: p1 && p1.subtitle,
-        image: p1 && p1.main_image,
-        imgText: 'post image',
-        linkText: 'Continue lendo…'
-      };
-
-      if (!p1) {
-        p1 = {
-          title: 'vazio',
-          description: 'vazio',
-          image: 'vazio',
-          imgText: 'post image',
-          linkText: 'Continue lendo…'
-        };
-      }
-
-      let p2 = response.data.data.map(post => ({
-        title: post && post.title,
-        date: post && moment(post.createdAt).format('DD/MM/YYYY HH:mm'),
-        description: post && post.subtitle,
-        image: post && post.main_image,
-        imageText: 'post image',
-      }));
-
-      if (p2.length === 0) {
-        let pAux = {
-          title: 'vazio',
-          date: moment('2020-04-13T02:19:54.000Z').format('DD/MM/YYYY HH:mm'),
-          description: 'vazio',
-          image: 'vazio',
-          imageText: 'post image'
-        };
-        p2.push(pAux);
-      } else {
-        p2 = [ p2[0], p2[1] ];
-      }
-
-      let p3 = response.data.data;
-      p3.shift();
-      p3.shift();
-
-      setMainFeaturedPost(p1);
-      setFeaturedPosts(p2);
-      setPosts(p3);
+      setMainFeaturedPost(response.data.data[0]);
+      setFeaturedPosts([ response.data.data[1], response.data.data[2] ]);
+      response.data.data.splice(0, 3);
+      setPosts(response.data.data);
     }
 
     loadCategories();
@@ -129,11 +85,11 @@ export default function Blog(props) {
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
             {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
+              <FeaturedPost key={post && post.title} post={post} />
             ))}
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>
-            <Main title="Mais recentes" posts={posts} />
+            <Main title="Veja mais" posts={posts} />
             <Sidebar
               title={sidebar.title}
               description={sidebar.description}

@@ -34,8 +34,12 @@ export default function Main(props) {
       <Divider />
       {posts.map((post) => (
         <>
-        <h4>Autor: {post.user.username}&nbsp;&nbsp;Data: {moment(post.createdAt).format('DD/MM/YYYY HH:mm')}&nbsp;&nbsp;Categoria: {post.category.name}</h4>
-        <h4>Tags: {post.tags.map(tag => (`${tag.name} `))}</h4>
+        <h4>
+          Por: {post.user.username}&nbsp;&nbsp;
+          Data: {moment(post.createdAt).format('DD/MM/YYYY HH:mm')}&nbsp;&nbsp;
+          Categoria: {post.category.name}&nbsp;&nbsp;
+          Tags: {post.tags.map(tag => (`${tag.name} `))}
+        </h4>
         <h1>{post.title}</h1>
         <img src={post.main_image} className={classes.postImage} alt=""/>
         <div className={classes.markdown} key={post.id} id="content">
