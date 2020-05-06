@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarTitle: {
     flex: 1,
+    fontFamily: 'Lobster, cursive'
   },
   toolbarSecondary: {
     justifyContent: 'flex-start',
