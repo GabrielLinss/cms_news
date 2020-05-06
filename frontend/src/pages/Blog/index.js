@@ -3,9 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
 import Header from '../../components/Header';
 import MainFeaturedPost from '../../components/MainFeaturedPost';
 import FeaturedPost from '../../components/FeaturedPost';
@@ -20,26 +19,29 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const actualYear = new Date().getFullYear();
+const archivesURL = 'http://localhost:3000/home/data/';
+
 const sidebar = {
   title: 'Anúncio aqui',
   description:
     'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
   archives: [
-    { title: 'Maio 2020', url: '#' },
-    { title: 'Abril 2020', url: '#' },
-    { title: 'Março 2020', url: '#' },
-    { title: 'Fevereiro 2020', url: '#' },
-    { title: 'Janeiro 2020', url: '#' },
-    { title: 'Dezembro 2019', url: '#' },
-    { title: 'Novembro 2019', url: '#' },
-    { title: 'Outubro 2019', url: '#' },
-    { title: 'Setembro 2019', url: '#' },
-    { title: 'Agosto 2019', url: '#' },
-    { title: 'Julho 2019', url: '#' }
+    { title: `Dezembro ${actualYear}`, url: `${archivesURL}${actualYear}/dezembro` },
+    { title: `Novembro ${actualYear}`, url: `${archivesURL}${actualYear}/novembro` },
+    { title: `Outubro ${actualYear}`, url: `${archivesURL}${actualYear}/outubro` },
+    { title: `Setembro ${actualYear}`, url: `${archivesURL}${actualYear}/setembro` },
+    { title: `Agosto ${actualYear}`, url: `${archivesURL}${actualYear}/agosto` },
+    { title: `Julho ${actualYear}`, url: `${archivesURL}${actualYear}/julho` },
+    { title: `Junho ${actualYear}`, url: `${archivesURL}${actualYear}/junho` },
+    { title: `Maio ${actualYear}`, url: `${archivesURL}${actualYear}/maio` },
+    { title: `Abril ${actualYear}`, url: `${archivesURL}${actualYear}/abril` },
+    { title: `Março ${actualYear}`, url: `${archivesURL}${actualYear}/marco` },
+    { title: `Fevereiro ${actualYear}`, url: `${archivesURL}${actualYear}/fevereiro` },
+    { title: `Janeiro ${actualYear}`, url: `${archivesURL}${actualYear}/janeiro` }
   ],
   social: [
-    { name: 'GitHub', icon: GitHubIcon, url: 'https://www.github.com/GabrielLinss' },
-    { name: 'Twitter', icon: TwitterIcon, url: 'https://twitter.com' },
+    { name: 'Instagram', icon: InstagramIcon, url: 'https://www.instagram.com' },
     { name: 'Facebook', icon: FacebookIcon, url: 'https://www.facebook.com' }
   ],
 };
