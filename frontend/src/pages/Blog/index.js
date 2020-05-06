@@ -108,6 +108,8 @@ export default function Blog(props) {
       }
 
       let p3 = response.data.data;
+      p3.shift();
+      p3.shift();
 
       setMainFeaturedPost(p1);
       setFeaturedPosts(p2);

@@ -4,8 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import Markdown from '../Markdown';
 import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
+import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
   markdown: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: '1px solid #cecece'
   },
   postImage: {
-    maxWidth: '40vw',
-    minWidth: '40vw',
+    maxWidth: '42vw',
+    minWidth: '42vw',
     maxHeight: '50vh',
     minHeight: '50vh'
   }
@@ -37,9 +38,9 @@ export default function Main(props) {
         <h4>Tags: {post.tags.map(tag => (`${tag.name} `))}</h4>
         <h1>{post.title}</h1>
         <img src={post.main_image} className={classes.postImage} alt=""/>
-        <Markdown className={classes.markdown} key={post.id}>
-          {post.content}
-        </Markdown>
+        <div className={classes.markdown} key={post.id} id="content">
+          { ReactHtmlParser(post.content) }
+        </div>
         </>
       ))}
     </Grid>
