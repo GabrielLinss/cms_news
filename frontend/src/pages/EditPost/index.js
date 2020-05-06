@@ -4,7 +4,8 @@ import { TextField, Button } from '@material-ui/core';
 import Dashboard from '../../components/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
-import CKEditor from 'ckeditor4-react';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditPost(props) {
   const id = props.match.params.id;
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState(null);
 
   const classes = useStyles();
 
@@ -64,7 +65,7 @@ export default function EditPost(props) {
 
   return (
     <Dashboard>
-      <h1>Editar post - por {post.user && post.user.username}</h1>
+      <h1>Editar post</h1>
 
       <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
         <TextField
@@ -74,7 +75,7 @@ export default function EditPost(props) {
           className={classes.textField}
           margin="dense"
           variant="outlined"
-          value={post.title}
+          value={post && post.title}
           onChange={e => setPost({ title: e.target.value})}
         />
         <TextField
@@ -84,12 +85,19 @@ export default function EditPost(props) {
           className={classes.textField}
           margin="dense"
           variant="outlined"
-          value={post.subtitle}
+          value={post && post.subtitle}
           onChange={e => setPost({ subtitle: e.target.value})}
         />
         <CKEditor
-          data={post.content}
-          onChange={e => setPost({ content: e.editor.getData()})}
+          editor={ ClassicEditor }
+          data={post && post.content}
+          onInit={ editor => {
+            console.log( 'Editor is ready to use!', editor );
+          }}
+          onChange={ ( event, editor ) => {
+            const data = editor.getData();
+            setPost({ content: data });
+          }}
         />
         <Button type="submit" color="primary" size="large">Salvar</Button>
       </form>
