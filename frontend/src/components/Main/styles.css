@@ -1,6 +1,4 @@
 #content img {
-  max-width: 42vw;
-  min-width: 42vw;
+  max-width: 100%;
   max-height: 50vh;
-  min-height: 50vh;
 }
