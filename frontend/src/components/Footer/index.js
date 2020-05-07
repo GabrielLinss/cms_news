@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="inherit" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://www.serranoticias.com.br">
         Serra Notícias
@@ -20,7 +20,8 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    color: '#fff',
+    backgroundImage: 'radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,52,89,1) 0%, rgba(0,168,232,1) 90% )',
     // marginTop: theme.spacing(8),
     padding: theme.spacing(6, 0),
   },
@@ -36,7 +37,7 @@ export default function Footer(props) {
         <Typography variant="h6" align="center" gutterBottom>
           {title}
         </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+        <Typography variant="subtitle1" align="center" color="inherit" component="p">
           {description}
         </Typography>
         <Copyright />

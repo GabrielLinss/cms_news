@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbarTitle: {
-    flex: 1,
-    fontFamily: 'Lobster, cursive'
+    flex: 1
   },
   toolbarSecondary: {
     justifyContent: 'flex-start',
@@ -22,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
   toolbarLink: {
     padding: theme.spacing(1),
     flexShrink: 0,
+  },
+  header: {
+    color: '#fff',
+    backgroundImage: 'radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,52,89,1) 0%, rgba(0,168,232,1) 90% )'
   }
 }));
 
@@ -33,37 +36,39 @@ export default function Header(props) {
 
   return (
     <>
-      <Toolbar className={classes.toolbar}>
-        <Button variant="outlined" size="small" onClick={() => history.push('/home')}>Início</Button>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          className={classes.toolbarTitle}
-        >
-          {title}
-        </Typography>
-
-        <Button variant="outlined" size="small" onClick={() => history.push('/login')}>
-          Login
-        </Button>
-      </Toolbar>
-      <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-        {sections.map((section) => (
-          <Link
+      <header className={classes.header}>
+        <Toolbar className={classes.toolbar}>
+          <Button color="inherit" variant="outlined" size="small" onClick={() => history.push('/home')}>Início</Button>
+          <Typography
+            component="h2"
+            variant="h5"
             color="inherit"
+            align="center"
             noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            className={classes.toolbarLink}
+            className={classes.toolbarTitle}
           >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar>
+            {title}
+          </Typography>
+
+          <Button color="inherit" variant="outlined" size="small" onClick={() => history.push('/login')}>
+            Login
+          </Button>
+        </Toolbar>
+        <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+          {sections.map((section) => (
+            <Link
+              color="inherit"
+              noWrap
+              key={section.title}
+              variant="body2"
+              href={section.url}
+              className={classes.toolbarLink}
+            >
+              {section.title}
+            </Link>
+          ))}
+        </Toolbar>
+      </header>
     </>
   );
 }
