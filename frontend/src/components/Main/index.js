@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
+import Pagination from '@material-ui/lab/Pagination';
+import { useSelector } from 'react-redux';
 import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,12 +19,19 @@ const useStyles = makeStyles((theme) => ({
   postImage: {
     maxWidth: '100%',
     maxHeight: '50vh',
+  },
+  seeMore: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3)
   }
 }));
 
 export default function Main(props) {
+  const posts = useSelector(state => state.data);
+
   const classes = useStyles();
-  const { posts, title } = props;
+
+  const { title } = props;
 
   return (
     <Grid item xs={12} md={8}>
@@ -45,6 +54,14 @@ export default function Main(props) {
           </div>
         </div>
       ))}
+
+      <div className={classes.seeMore}>
+        <Pagination
+          count={1}
+          page={1}
+          onChange={(event, page) => {}}
+        />
+      </div>
     </Grid>
   );
 }

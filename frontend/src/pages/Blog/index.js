@@ -12,6 +12,7 @@ import Main from '../../components/Main';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -50,28 +51,32 @@ export default function Blog(props) {
   const categoryId = props.match.params.category;
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   const [categories, setCategories] = useState([]);
   const [mainFeaturedPost, setMainFeaturedPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function loadCategories() {
       const response = await api.get('/categories');
-      const data = response.data.map(category => ({ title: category.name, url: `http://localhost:3000/home/${category.id}` }));
+      const data = response.data.map(category => ({ title: category.name, url: `http://localhost:3000/home/categoria=${category.id}` }));
       setCategories(data);
     }
 
     async function loadPosts() {
       let response
 
-      if (categoryId) response = await api.get(`/posts?category_id=${categoryId}`);
+      if (categoryId) {
+        const paramToArray = categoryId.split('=');
+        response = await api.get(`/posts?category_id=${paramToArray[1]}`);
+      }
       else response = await api.get('/posts');
 
       setMainFeaturedPost(response.data.data[0]);
       setFeaturedPosts([ response.data.data[1], response.data.data[2] ]);
       response.data.data.splice(0, 3);
-      setPosts(response.data.data);
+      dispatch({ type: 'LOAD_POSTS', posts: response.data.data });
     }
 
     loadCategories();
@@ -91,7 +96,7 @@ export default function Blog(props) {
             ))}
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>
-            <Main title="Veja mais" posts={posts} />
+            <Main title="Veja mais" />
             <Sidebar
               title={sidebar.title}
               description={sidebar.description}
