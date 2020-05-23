@@ -80,12 +80,12 @@ export default function Blog(props) {
       setMainFeaturedPost(response.data.data[0]);
       setFeaturedPosts([ response.data.data[1], response.data.data[2] ]);
       response.data.data.splice(0, 3);
-      dispatch({ type: 'LOAD_POSTS', posts: response.data.data });
+      dispatch({ type: 'LOAD_POSTS', posts: response.data.data, page: response.data.page, lastPage: response.data.lastPage });
     }
 
     loadCategories();
     loadPosts();
-  }, [categoryId]);
+  }, [categoryId, month]);
 
   return (
     <>

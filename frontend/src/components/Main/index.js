@@ -7,7 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
 import Pagination from '@material-ui/lab/Pagination';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import api from '../../services/api';
 import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +28,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Main(props) {
-  const posts = useSelector(state => state.data);
+  const posts = useSelector(state => state);
 
   const classes = useStyles();
 
   const { title } = props;
+
+  const dispatch = useDispatch();
+
+  async function handlePage(page) {
+    const response = await api.get(`/posts?page=${page}`);
+
+    dispatch({ type: 'LOAD_POSTS', posts: response.data.data, page: response.data.page, lastPage: response.data.lastPage });
+  }
 
   return (
     <Grid item xs={12} md={8}>
@@ -39,7 +48,7 @@ export default function Main(props) {
         {title}
       </Typography>
       <Divider />
-      {posts.map((post) => (
+      {posts.data.map((post) => (
         <div key={post.id}>
           <h4>
             Por: {post.user.username}&nbsp;&nbsp;
@@ -57,9 +66,9 @@ export default function Main(props) {
 
       <div className={classes.seeMore}>
         <Pagination
-          count={1}
-          page={1}
-          onChange={(event, page) => {}}
+          count={posts.lastPage}
+          page={posts.page}
+          onChange={(event, page) => handlePage(page)}
         />
       </div>
     </Grid>
