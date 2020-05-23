@@ -18,6 +18,7 @@ export default function Routes() {
         <Switch>
             <Route path="/" exact component={Home}/>
             <Route path="/home/:category?" exact component={Blog}/>
+            <Route path="/home/data/:year/:month" exact component={Blog}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/dashboard" exact component={Posts}/>
             <Route path="/dashboard/posts/edit/:id" exact component={EditPost}/>

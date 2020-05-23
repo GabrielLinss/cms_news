@@ -52,8 +52,9 @@ routes.post('/logout', authController.logout);
 
 // Post routes
 routes.get('/posts', postController.index);
-routes.post('/posts', auth.interceptRequest, 
-                      multer(multerConfig).single('main_image'), 
+routes.get('/postsByMonth', postController.indexByDate);
+routes.post('/posts', auth.interceptRequest,
+                      multer(multerConfig).single('main_image'),
                       postController.store);
 routes.get('/posts/:id', postController.show);
 routes.put('/posts/:id', celebrate({
@@ -96,8 +97,8 @@ routes.put('/tags/:id', celebrate({
 routes.delete('/tags/:id', auth.interceptRequest, tagController.destroy);
 
 // Image routes
-routes.post('/images', auth.interceptRequest, 
-                       multer(multerConfig).array('images', 5), 
+routes.post('/images', auth.interceptRequest,
+                       multer(multerConfig).array('images', 5),
                        imageController.store);
 routes.delete('/images/:id', auth.interceptRequest, imageController.destroy);
 

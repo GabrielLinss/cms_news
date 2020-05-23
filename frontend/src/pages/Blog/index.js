@@ -49,6 +49,7 @@ const sidebar = {
 
 export default function Blog(props) {
   const categoryId = props.match.params.category;
+  const month = props.match.params.month;
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -70,6 +71,9 @@ export default function Blog(props) {
       if (categoryId) {
         const paramToArray = categoryId.split('=');
         response = await api.get(`/posts?category_id=${paramToArray[1]}`);
+      }
+      else if (month) {
+        response = await api.get(`/postsByMonth?month=${month}`);
       }
       else response = await api.get('/posts');
 
