@@ -1,6 +1,7 @@
 import Post from '../models/Post';
 import Image from '../models/Image';
 import Tag from '../models/Tag';
+import Category from '../models/Category';
 import { Request, Response } from 'express';
 import AWS from 'aws-sdk';
 import { config } from 'dotenv';
@@ -35,9 +36,13 @@ interface ITag extends Tag {
   name?: string;
 }
 
+interface ICategory extends Category {
+  id?: number;
+}
+
 class PostController {
   public async index(req: Request, res: Response): Promise<Response> {
-    let { page = 1, limit = 5, category_id } = req.query;
+    let { page = 1, limit = 5, category_name } = req.query;
 
     page = parseInt(page);
     limit = parseInt(limit);
@@ -46,9 +51,11 @@ class PostController {
 
     let posts;
 
-    if (category_id) {
+    if (category_name) {
+      const category: ICategory = await Category.findOne({ where: { name: category_name } });
+
       posts = await Post.findAndCountAll({
-        where: { category_id },
+        where: { category_id: category.id },
         limit,
         offset,
         order: [['id', 'DESC']],
@@ -69,8 +76,9 @@ class PostController {
 
     let total
 
-    if (category_id) {
-      total = await Post.count({ where: { category_id } });
+    if (category_name) {
+      const category: ICategory = await Category.findOne({ where: { name: category_name } });
+      total = await Post.count({ where: { category_id: category.id } });
     } else {
       total = await Post.count();
     }

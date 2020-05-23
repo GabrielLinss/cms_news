@@ -48,7 +48,7 @@ const sidebar = {
 };
 
 export default function Blog(props) {
-  const categoryId = props.match.params.category;
+  const category = props.match.params.category;
   const month = props.match.params.month;
   const classes = useStyles();
 
@@ -58,19 +58,22 @@ export default function Blog(props) {
   const [mainFeaturedPost, setMainFeaturedPost] = useState({});
   const [featuredPosts, setFeaturedPosts] = useState([]);
 
+  function addPostsToStore(data) {
+    dispatch({ type: 'LOAD_POSTS', posts: data.data, page: data.page, lastPage: data.lastPage });
+  }
+
   useEffect(() => {
     async function loadCategories() {
       const response = await api.get('/categories');
-      const data = response.data.map(category => ({ title: category.name, url: `http://localhost:3000/home/categoria=${category.id}` }));
+      const data = response.data.map(category => ({ title: category.name, url: `http://localhost:3000/home/categoria/${category.name}` }));
       setCategories(data);
     }
 
     async function loadPosts() {
       let response
 
-      if (categoryId) {
-        const paramToArray = categoryId.split('=');
-        response = await api.get(`/posts?category_id=${paramToArray[1]}`);
+      if (category) {
+        response = await api.get(`/posts?category_name=${category}`);
       }
       else if (month) {
         response = await api.get(`/postsByMonth?month=${month}`);
@@ -80,12 +83,12 @@ export default function Blog(props) {
       setMainFeaturedPost(response.data.data[0]);
       setFeaturedPosts([ response.data.data[1], response.data.data[2] ]);
       response.data.data.splice(0, 3);
-      dispatch({ type: 'LOAD_POSTS', posts: response.data.data, page: response.data.page, lastPage: response.data.lastPage });
+      addPostsToStore(response.data);
     }
 
     loadCategories();
     loadPosts();
-  }, [categoryId, month]);
+  }, [category, month]);
 
   return (
     <>
