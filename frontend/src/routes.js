@@ -11,6 +11,7 @@ import Categories from './pages/Categories';
 import Tags from './pages/Tags';
 import Blog from './pages/Blog';
 import Home from './pages/Home';
+import Post from './pages/Post';
 
 export default function Routes() {
   return (
@@ -20,6 +21,7 @@ export default function Routes() {
             <Route path="/home" exact component={Blog}/>
             <Route path="/home/categoria/:category" exact component={Blog}/>
             <Route path="/home/data/:year/:month" exact component={Blog}/>
+            <Route path="/home/post/:postId/:postName" exact component={Post}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/dashboard" exact component={Posts}/>
             <Route path="/dashboard/posts/edit/:id" exact component={EditPost}/>

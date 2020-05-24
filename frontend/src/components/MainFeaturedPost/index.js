@@ -53,7 +53,7 @@ export default function MainFeaturedPost(props) {
             <Typography variant="h5" color="inherit" paragraph>
               {post && post.subtitle}
             </Typography>
-            <Link variant="subtitle1" href="#">
+            <Link variant="subtitle1" href={post && `http://localhost:3000/home/post/${post.id}/${post.title}`}>
               Continue lendo...
             </Link>
           </div>
