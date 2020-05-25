@@ -18,6 +18,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import { getToken } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +50,7 @@ export default function Tags() {
 
   async function handleDelete() {
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.delete(`tags/${tagId}`, {
         headers: {
@@ -72,7 +73,7 @@ export default function Tags() {
   async function handleAdd(e) {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.post(`tags`, { name }, {
         headers: {

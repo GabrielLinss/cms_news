@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { getToken } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +49,7 @@ export default function EditPost(props) {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.put(`/posts/${id}`, post, {
         headers: {

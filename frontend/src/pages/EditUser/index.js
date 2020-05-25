@@ -4,6 +4,7 @@ import { TextField, Button } from '@material-ui/core';
 import Dashboard from '../../components/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
+import { getToken } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ export default function EditUser(props) {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.put(`/users/${id}`, user, {
         headers: {

@@ -64,7 +64,7 @@ export default function Users() {
 
   async function handleDelete() {
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.delete(`/users/${userId}`, {
         headers: {

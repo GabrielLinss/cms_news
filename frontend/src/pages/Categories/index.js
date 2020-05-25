@@ -18,6 +18,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import { getToken } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +50,7 @@ export default function Categories() {
 
   async function handleDelete() {
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.delete(`categories/${categoryId}`, {
         headers: {
@@ -72,7 +73,7 @@ export default function Categories() {
   async function handleAdd(e) {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.post(`categories`, { name }, {
         headers: {

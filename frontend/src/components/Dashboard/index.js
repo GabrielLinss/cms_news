@@ -21,7 +21,7 @@ import MainListItems from '../MainListItems';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Animated } from "react-animated-css";
-import { logout } from '../../services/auth';
+import { logout, getUserName } from '../../services/auth';
 
 function Copyright() {
   return (
@@ -123,7 +123,7 @@ export default function Dashboard(props) {
 
   const history = useHistory();
 
-  const username = localStorage.getItem('username');
+  const username = getUserName();
 
   const handleDrawerOpen = () => {
     setOpen(true);

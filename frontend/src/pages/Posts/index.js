@@ -20,6 +20,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Dashboard from '../../components/Dashboard';
+import { getToken } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -49,7 +50,7 @@ export default function Posts() {
 
   async function handleDelete() {
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
 
       await api.delete(`posts/${postId}`, {
         headers: {

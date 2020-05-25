@@ -5,6 +5,7 @@ import Dashboard from '../../components/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
 import CKEditor from 'ckeditor4-react';
+import { getToken, getUserId } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,8 +51,8 @@ export default function NewPost() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
-      const user_id = localStorage.getItem('userId');
+      const token = getToken();
+      const user_id = getUserId();
 
       let data = new FormData();
       data.append('user_id', user_id);
