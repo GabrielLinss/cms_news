@@ -9,8 +9,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="inherit" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://www.serranoticias.com.br">
-        Serra Notícias
+      <Link color="inherit" href="https://www.yoursite.com.br">
+        CMS News
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

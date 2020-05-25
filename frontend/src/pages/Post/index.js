@@ -83,7 +83,7 @@ export default function Post(props) {
     <>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Serra Notícias" sections={categories} />
+        <Header title="CMS News" sections={categories} />
         <main>
           <Grid container spacing={5} className={classes.mainGrid}>
             <Grid item xs={12} md={8}>

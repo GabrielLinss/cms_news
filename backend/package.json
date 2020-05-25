@@ -1,15 +1,15 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "regional news paper",
+  "description": "news paper",
   "main": "index.js",
   "author": "Gabriel Lins",
   "license": "MIT",
   "private": false,
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "build": "sucrase ./src -d ./dist --transforms typescript, imports",
-    "start": "node src/server.ts"
+    "build": "sucrase ./src -d ./dist --transforms typescript,imports",
+    "start": "node dist/src/server.js"
   },
   "dependencies": {
     "aws-sdk": "^2.656.0",

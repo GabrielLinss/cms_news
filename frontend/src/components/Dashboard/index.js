@@ -18,6 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MainListItems from '../MainListItems';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Animated } from "react-animated-css";
 
@@ -25,8 +26,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://www.serranoticias.com.br">
-        Serra Notícias
+      <Link color="inherit" href="https://www.yoursite.com.br">
+        CMS News
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -157,6 +158,10 @@ export default function Dashboard(props) {
           </Typography>
 
           <Typography component="h3" color="inherit" noWrap>
+            Abrir página
+            <IconButton color="inherit" onClick={() => history.push('/home')}>
+              <OpenInNewIcon/>
+            </IconButton>
             Olá, {username}&nbsp;
           </Typography>
 

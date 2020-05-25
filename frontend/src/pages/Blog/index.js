@@ -94,7 +94,7 @@ export default function Blog(props) {
     <>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Serra Notícias" sections={categories} />
+        <Header title="CMS News" sections={categories} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
