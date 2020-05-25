@@ -20,6 +20,7 @@ import Button from '@material-ui/core/Button';
 import Dashboard from '../../components/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
+import { getToken } from '../../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,7 @@ export default function Users() {
   const classes = useStyles();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
 
     api.get('/users', {
       headers: {

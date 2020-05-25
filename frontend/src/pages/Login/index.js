@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import api from '../../services/api';
+import { login } from '../../services/auth'
 
 function Copyright() {
   return (
@@ -59,9 +60,7 @@ export default function Login() {
     try {
       const response = await api.post('login', { email, password });
 
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('username', response.data.user.username);
-      localStorage.setItem('userId', response.data.user.id);
+      login(response.data.token, response.data.user.id, response.data.user.username);
 
       history.push('/dashboard');
     } catch (error) {
