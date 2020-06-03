@@ -9,6 +9,11 @@ Run **cp .env.example .env**.
 
 In **.env** file put your configs of database and configs of AWS S3.
 
+Run the following commands:
+- **npx sequelize-cli db:create**
+- **npx sequelize-cli db:migrate**
+- **npx sequelize-cli db:seed:all**
+
 Run **yarn dev** or **npm run dev** to execute development mode.
 
 ## Frontend
