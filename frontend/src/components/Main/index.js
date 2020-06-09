@@ -53,7 +53,7 @@ export default function Main(props) {
           <h4>
             Por: {post.user.username}&nbsp;&nbsp;
             Data: {moment(post.createdAt).format('DD/MM/YYYY HH:mm')}&nbsp;&nbsp;
-            Categoria: {post.category.name}&nbsp;&nbsp;
+            Categoria: {post.category && post.category.name}&nbsp;&nbsp;
             Tags: {post.tags.map(tag => (`${tag.name} `))}
           </h4>
           <h1>{post.title}</h1>

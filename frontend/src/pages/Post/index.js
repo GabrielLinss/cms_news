@@ -90,9 +90,9 @@ export default function Post(props) {
               <h1>{post && post.title}</h1>
               <div>
                 <h4>
-                  Por: { post && post.user.username}&nbsp;&nbsp;
+                  Por: {post && post.user && post.user.username}&nbsp;&nbsp;
                   Data: {post && moment(post.createdAt).format('DD/MM/YYYY HH:mm')}&nbsp;&nbsp;
-                  Categoria: {post && post.category.name}&nbsp;&nbsp;
+                  Categoria: {post && post.category && post.category.name}&nbsp;&nbsp;
                   Tags: {post && post.tags.map(tag => (`${tag.name} `))}
                 </h4>
                 <img src={post && post.main_image} className={classes.postImage} alt="" />

@@ -5,16 +5,16 @@ import routes from './routes';
 import morgan from 'morgan';
 
 class App {
-    public express: express.Application;
+    express: express.Application;
 
-    public constructor() {
+    constructor() {
       this.express = express();
 
       this.middlewares();
       this.routes();
     }
 
-    private middlewares(): void {
+    middlewares() {
       this.express.use(express.json());
       this.express.use(express.urlencoded({ extended: true }));
       this.express.use(cors());
@@ -22,7 +22,7 @@ class App {
       this.express.use(morgan('dev'));
     }
 
-    private routes(): void {
+    routes() {
       this.express.use(routes);
     }
 }

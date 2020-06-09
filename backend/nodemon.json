@@ -1,7 +1,0 @@
-{
-    "watch": ["app", "config", "database", "src"],
-    "ext": "ts",
-    "execMap": {
-        "ts": "node --inspect -r sucrase/register"
-    }
-}
