@@ -7,4 +7,5 @@ RUN yarn
 
 COPY . .
 EXPOSE 3333
-CMD [ "yarn", "start" ]
+RUN npm install pm2 -g
+CMD [ "yarn", "start:docker" ]

@@ -1,13 +1,13 @@
-import {Sequelize} from 'sequelize';
-import dbConfig from '../config/database';
+const {Sequelize} = require('sequelize');
+const dbConfig = require('../config/database');
 
-import User from '../app/models/User';
-import Tag from '../app/models/Tag';
-import Role from '../app/models/Role';
-import Post from '../app/models/Post';
-import Category from '../app/models/Category';
-import Token from '../app/models/Token';
-import Image from '../app/models/Image';
+const User = require('../app/models/User');
+const Tag = require('../app/models/Tag');
+const Role = require('../app/models/Role');
+const Post = require('../app/models/Post');
+const Category = require('../app/models/Category');
+const Token = require('../app/models/Token');
+const Image = require('../app/models/Image');
 
 const connection = new Sequelize(dbConfig);
 
@@ -26,4 +26,4 @@ Post.associate(connection.models);
 Category.associate(connection.models);
 Image.associate(connection.models);
 
-export default connection;
+module.exports = connection;

@@ -1,4 +1,4 @@
-import { Model, DataTypes } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
 class Token extends Model {
   static init(connection) {
@@ -11,4 +11,4 @@ class Token extends Model {
   }
 }
 
-export default Token;
+module.exports = Token;

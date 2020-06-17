@@ -1,10 +1,10 @@
-import Post from '../models/Post';
-import Image from '../models/Image';
-import Tag from '../models/Tag';
-import Category from '../models/Category';
-import AWS from 'aws-sdk';
-import { Op } from 'sequelize';
-import convertMonth from '../utils/convertMonth';
+const Post = require('../models/Post');
+const Image = require('../models/Image');
+const Tag = require('../models/Tag');
+const Category = require('../models/Category');
+const AWS = require('aws-sdk');
+const { Op } = require('sequelize');
+const { convertMonth } = require('../utils/convertMonth');
 
 class PostController {
   async index(req, res) {
@@ -222,7 +222,7 @@ class PostController {
         }
 
         try {
-          //await s3.headObject(params).promise();
+          await s3.headObject(params).promise();
 
           try {
             await s3.deleteObject(params).promise();
@@ -249,4 +249,4 @@ class PostController {
   }
 }
 
-export default PostController;
+module.exports = PostController;

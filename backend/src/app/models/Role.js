@@ -1,4 +1,4 @@
-import { Model, DataTypes } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
 class Role extends Model {
   static init(connection) {
@@ -14,4 +14,4 @@ class Role extends Model {
   }
 }
 
-export default Role;
+module.exports = Role;

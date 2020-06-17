@@ -1,9 +1,9 @@
-import User from '../models/User';
-import Token from '../models/Token';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+const User = require('../models/User');
+const Token = require('../models/Token');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-function generateToken(params = {}) {
+const generateToken = (params = {}) => {
     return jwt.sign(params, process.env.API_KEY, {
         expiresIn: 86400
     });
@@ -76,4 +76,4 @@ class AuthController {
     }
 }
 
-export default AuthController;
+module.exports = AuthController;

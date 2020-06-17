@@ -1,4 +1,4 @@
-export default function convertMonth(month: string) {
+export const convertMonth = (month: string) => {
   switch(month) {
     case 'janeiro':
       return 0;

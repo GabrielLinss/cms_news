@@ -1,5 +1,5 @@
-import Image from '../models/Image';
-import AWS from 'aws-sdk';
+const Image = require('../models/Image');
+const AWS = require('aws-sdk');
 
 class ImageController {
     async store(req, res) {
@@ -67,4 +67,4 @@ class ImageController {
     }
 }
 
-export default ImageController;
+module.exports = ImageController;
